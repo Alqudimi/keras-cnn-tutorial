@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="مشروع عملي متقدم لاكتشاف أمراض النباتات باستخدام CNN عميق - تطبيق واقعي للزراعة الذكية">
+  <title>مشروع اكتشاف أمراض النباتات | دليل التعلم العميق</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="progress-bar"></div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="logo-text">دليل التعلم العميق</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="index.html" class="nav-link">الرئيسية</a>
+          <a href="architecture.html" class="nav-link">معمارية النموذج</a>
+          <a href="preprocessing.html" class="nav-link">معالجة الصور</a>
+          <a href="training-settings.html" class="nav-link">إعدادات التدريب</a>
+          <a href="training-phases.html" class="nav-link">مراحل التدريب</a>
+          <a href="examples.html" class="nav-link">الأمثلة العملية</a>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="search-btn" aria-label="بحث">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+          <button class="theme-toggle" aria-label="تبديل الوضع">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+          <button class="mobile-menu-toggle" aria-label="القائمة">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav-overlay"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav-header">
+      <span class="logo">دليل التعلم العميق</span>
+      <button class="mobile-nav-close" aria-label="إغلاق">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-nav-accordion">
+        <!-- 1. الأساسيات -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    الأساسيات
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="index.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        الرئيسية
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. بناء النموذج -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    بناء النموذج
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="architecture.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                        معمارية النموذج
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. إعداد البيانات -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    إعداد البيانات
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="preprocessing.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        معالجة الصور
+                    </a>
+                    <a href="dataset.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m0 0h4m-4 0l4-4m-4 4l4 4m-4-4h12a2 2 0 002-2V9a2 2 0 00-2-2h-4m-7 0l-3 3"/>
+                        </svg>
+                        مجموعة البيانات
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. التدريب والتحسين -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    التدريب والتحسين
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="training-settings.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        إعدادات التدريب
+                    </a>
+                    <a href="training-phases.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        مراحل التدريب
+                    </a>
+                    <a href="performance.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                        الأداء
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. التقييم والتفسير -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m3 0V7a2 2 0 012-2h2a2 2 0 012 2v12m0 0h3.623c.445 0 .74-.401.585-.802l-3.5-7A1.125 1.125 0 0117.5 9h2.5a2 2 0 012 2v7.25c0 .556-.444 1.25-1.25 1.25H9z"/>
+                    </svg>
+                    التقييم والتفسير
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="evaluation.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m3 0V7a2 2 0 012-2h2a2 2 0 012 2v12m0 0h3.623c.445 0 .74-.401.585-.802l-3.5-7A1.125 1.125 0 0117.5 9h2.5a2 2 0 012 2v7.25c0 .556-.444 1.25-1.25 1.25H9z"/>
+                        </svg>
+                        التقييم
+                    </a>
+                    <a href="explainability.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9.247a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zM12 21a9 9 0 100-18 9 9 0 000 18z"/>
+                        </svg>
+                        قابلية التفسير
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. الأمثلة العملية -->
+        <div class="accordion-item active">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    الأمثلة العملية
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content" style="max-height: 2000px;">
+                <div class="accordion-body">
+                    <a href="examples.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        نظرة عامة
+                    </a>
+                    <a href="cats-dogs.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21H6.737a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 10H13m0 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v1m-3 0h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21H6.737a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 10H13"/>
+                        </svg>
+                        القطط والكلاب
+                    </a>
+                    <a href="fashion-mnist.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        مجموعة بيانات الأزياء
+                    </a>
+                    <a href="flowers.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v-2m-2 2h4m-4 0l4-4m-4 4l4 4m-4-4h12a2 2 0 002-2V9a2 2 0 00-2-2h-4m-7 0l-3 3"/>
+                        </svg>
+                        مجموعة بيانات الزهور
+                    </a>
+                    <a href="plant-disease.html" class="mobile-nav-link active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        أمراض النباتات
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. أدوات وموارد -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    أدوات وموارد
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="code-templates.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        قوالب الكود
+                    </a>
+                    <a href="common-mistakes.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        الأخطاء الشائعة
+                    </a>
+                    <a href="deployment.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        النشر
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+
+        <!-- 2. بناء النموذج -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    بناء النموذج
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="architecture.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                        معمارية النموذج
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. إعداد البيانات -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    إعداد البيانات
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="preprocessing.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        معالجة الصور
+                    </a>
+                    <a href="dataset.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m0 0h4m-4 0l4-4m-4 4l4 4m-4-4h12a2 2 0 002-2V9a2 2 0 00-2-2h-4m-7 0l-3 3"/>
+                        </svg>
+                        مجموعة البيانات
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. التدريب والتحسين -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    التدريب والتحسين
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="training-settings.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        إعدادات التدريب
+                    </a>
+                    <a href="training-phases.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        مراحل التدريب
+                    </a>
+                    <a href="performance.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                        الأداء
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. التقييم والتفسير -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m3 0V7a2 2 0 012-2h2a2 2 0 012 2v12m0 0h3.623c.445 0 .74-.401.585-.802l-3.5-7A1.125 1.125 0 0117.5 9h2.5a2 2 0 012 2v7.25c0 .556-.444 1.25-1.25 1.25H9z"/>
+                    </svg>
+                    التقييم والتفسير
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="evaluation.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m3 0V7a2 2 0 012-2h2a2 2 0 012 2v12m0 0h3.623c.445 0 .74-.401.585-.802l-3.5-7A1.125 1.125 0 0117.5 9h2.5a2 2 0 012 2v7.25c0 .556-.444 1.25-1.25 1.25H9z"/>
+                        </svg>
+                        التقييم
+                    </a>
+                    <a href="explainability.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9.247a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zm-1.782 1.018a1 1 0 01.791-.764 1 1 0 11.424 1.963 1 1 0 01-.791.764zM12 21a9 9 0 100-18 9 9 0 000 18z"/>
+                        </svg>
+                        قابلية التفسير
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. الأمثلة العملية -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    الأمثلة العملية
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="examples.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        نظرة عامة
+                    </a>
+                    <a href="cats-dogs.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21H6.737a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 10H13m0 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v1m-3 0h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21H6.737a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 10H13"/>
+                        </svg>
+                        القطط والكلاب
+                    </a>
+                    <a href="fashion-mnist.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        مجموعة بيانات الأزياء
+                    </a>
+                    <a href="flowers.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v-2m-2 2h4m-4 0l4-4m-4 4l4 4m-4-4h12a2 2 0 002-2V9a2 2 0 00-2-2h-4m-7 0l-3 3"/>
+                        </svg>
+                        مجموعة بيانات الزهور
+                    </a>
+                    <a href="plant-disease.html" class="mobile-nav-link active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        أمراض النباتات
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. أدوات وموارد -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span class="accordion-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    أدوات وموارد
+                </span>
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <a href="code-templates.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        قوالب الكود
+                    </a>
+                    <a href="common-mistakes.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        الأخطاء الشائعة
+                    </a>
+                    <a href="deployment.html" class="mobile-nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        النشر
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-title">محتويات المشروع</div>
+        <nav class="sidebar-nav">
+          <a href="#intro" class="sidebar-link">مقدمة المشروع</a>
+          <a href="#problem" class="sidebar-link">أهمية المشكلة</a>
+          <a href="#data-cleaning" class="sidebar-link">تنظيف البيانات</a>
+          <a href="#imbalance" class="sidebar-link">معالجة عدم التوازن</a>
+          <a href="#augmentation" class="sidebar-link">زيادة البيانات القوية</a>
+          <a href="#model" class="sidebar-link">بناء CNN كبيرة</a>
+          <a href="#training" class="sidebar-link">التدريب متعدد المراحل</a>
+          <a href="#evaluation" class="sidebar-link">التقييم المتقدم</a>
+          <a href="#error-analysis" class="sidebar-link">تحليل الأخطاء</a>
+          <a href="#testing" class="sidebar-link">اختبار من الواقع</a>
+          <a href="#save-model" class="sidebar-link">حفظ النموذج</a>
+        </nav>
+        
+        <div class="sidebar-title" style="margin-top: var(--space-xl);">المشاريع الأخرى</div>
+        <nav class="sidebar-nav">
+          <a href="cats-dogs.html" class="sidebar-link">تصنيف القطط والكلاب</a>
+          <a href="flowers.html" class="sidebar-link">تصنيف الزهور</a>
+          <a href="fashion-mnist.html" class="sidebar-link">تصنيف الملابس</a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <article class="main-content">
+        <header class="page-header">
+          <nav class="breadcrumb">
+            <a href="index.html">الرئيسية</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>المشاريع العملية</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>اكتشاف أمراض النباتات</span>
+          </nav>
+          <h1 class="page-title">مشروع اكتشاف أمراض النباتات</h1>
+          <p class="page-description">
+            مشروع متقدم لتطبيق CNN على مشكلة واقعية: تشخيص أمراض النباتات من صور الأوراق.
+            يستخدم في الزراعة الذكية ويساعد المزارعين على التشخيص المبكر.
+          </p>
+        </header>
+
+        <!-- Introduction -->
+        <section id="intro" class="content-section">
+          <h2>مقدمة المشروع</h2>
+          
+          <p>
+            اكتشاف أمراض النباتات هو تطبيق واقعي ومهم للتعلم العميق في مجال الزراعة. 
+            تقدر خسائر المحاصيل بسبب الأمراض النباتية بمليارات الدولارات سنويًا. 
+            التشخيص المبكر يمكن أن ينقذ محاصيل كاملة.
+          </p>
+
+          <div class="info-card info">
+            <svg class="info-card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="info-card-content">
+              <h4>مجموعة بيانات PlantVillage</h4>
+              <p>
+                سنستخدم مجموعة PlantVillage الشهيرة التي تحتوي على 54,000+ صورة لأوراق 
+                14 نوعًا من النباتات مع 38 فئة مختلفة (صحي ومصاب بأمراض متنوعة).
+              </p>
+            </div>
+          </div>
+
+          <h3>أنواع النباتات والأمراض</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>النبات</th>
+                  <th>عدد الفئات</th>
+                  <th>أمثلة على الأمراض</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>الطماطم</td>
+                  <td>10</td>
+                  <td>Late Blight, Early Blight, Leaf Mold</td>
+                </tr>
+                <tr>
+                  <td>البطاطس</td>
+                  <td>3</td>
+                  <td>Early Blight, Late Blight, Healthy</td>
+                </tr>
+                <tr>
+                  <td>الفلفل</td>
+                  <td>2</td>
+                  <td>Bacterial Spot, Healthy</td>
+                </tr>
+                <tr>
+                  <td>التفاح</td>
+                  <td>4</td>
+                  <td>Apple Scab, Black Rot, Cedar Rust</td>
+                </tr>
+                <tr>
+                  <td>العنب</td>
+                  <td>4</td>
+                  <td>Black Rot, Esca, Leaf Blight</td>
+                </tr>
+                <tr>
+                  <td>الذرة</td>
+                  <td>4</td>
+                  <td>Gray Leaf Spot, Common Rust, Blight</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Problem Importance -->
+        <section id="problem" class="content-section">
+          <h2>أهمية المشكلة في الحياة اليومية</h2>
+          
+          <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <div class="feature-card">
+              <div class="feature-icon" style="font-size: 2rem;">💰</div>
+              <h3 class="feature-title">خسائر اقتصادية</h3>
+              <p class="feature-description">
+                الأمراض النباتية تسبب خسائر تقدر بـ 220 مليار دولار سنويًا عالميًا
+              </p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon" style="font-size: 2rem;">🌍</div>
+              <h3 class="feature-title">الأمن الغذائي</h3>
+              <p class="feature-description">
+                30-40% من المحاصيل تُفقد بسبب الآفات والأمراض في الدول النامية
+              </p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon" style="font-size: 2rem;">🔬</div>
+              <h3 class="feature-title">التشخيص المبكر</h3>
+              <p class="feature-description">
+                الكشف المبكر يمكن أن يقلل استخدام المبيدات بنسبة 50%
+              </p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon" style="font-size: 2rem;">📱</div>
+              <h3 class="feature-title">تطبيق محمول</h3>
+              <p class="feature-description">
+                يمكن نشر النموذج كتطبيق يستخدمه المزارعون في الحقل
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Data Cleaning -->
+        <section id="data-cleaning" class="content-section">
+          <h2>تنظيف البيانات</h2>
+          
+          <p>
+            بيانات العالم الحقيقي غالبًا ما تحتوي على مشاكل. في هذا المشروع سنتعامل مع 
+            صور مكررة، صور تالفة، وصور ذات جودة منخفضة.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>import os
+import hashlib
+from PIL import Image
+import numpy as np
+from tqdm import tqdm
+
+def clean_dataset(data_dir, min_size=50, check_duplicates=True):
+    """
+    تنظيف شامل لمجموعة البيانات
+    """
+    stats = {
+        'total': 0,
+        'corrupted': 0,
+        'too_small': 0,
+        'duplicates': 0,
+        'valid': 0
+    }
+    
+    seen_hashes = set()
+    
+    for root, dirs, files in os.walk(data_dir):
+        for filename in tqdm(files, desc="Processing"):
+            filepath = os.path.join(root, filename)
+            stats['total'] += 1
+            
+            try:
+                with Image.open(filepath) as img:
+                    # التحقق من الصورة
+                    img.verify()
+                
+                # إعادة فتح بعد verify
+                with Image.open(filepath) as img:
+                    # التحقق من الحجم
+                    if img.size[0] < min_size or img.size[1] < min_size:
+                        stats['too_small'] += 1
+                        os.remove(filepath)
+                        continue
+                    
+                    # التحقق من التكرار
+                    if check_duplicates:
+                        img_hash = hashlib.md5(img.tobytes()).hexdigest()
+                        if img_hash in seen_hashes:
+                            stats['duplicates'] += 1
+                            os.remove(filepath)
+                            continue
+                        seen_hashes.add(img_hash)
+                    
+                    stats['valid'] += 1
+                    
+            except Exception as e:
+                stats['corrupted'] += 1
+                os.remove(filepath)
+    
+    print("\n" + "="*50)
+    print("نتائج التنظيف:")
+    print("="*50)
+    for key, value in stats.items():
+        print(f"  {key}: {value}")
+    
+    return stats
+
+# تشغيل التنظيف
+clean_dataset('PlantVillage/train')</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Class Imbalance -->
+        <section id="imbalance" class="content-section">
+          <h2>معالجة عدم توازن الفئات</h2>
+          
+          <p>
+            في بيانات أمراض النباتات، بعض الأمراض نادرة بينما الأوراق السليمة وفيرة.
+            سنستخدم عدة تقنيات للتعامل مع هذا.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>from sklearn.utils.class_weight import compute_class_weight
+import tensorflow as tf
+
+def analyze_and_balance_classes(data_dir, class_names):
+    """
+    تحليل توزيع الفئات وحساب الأوزان
+    """
+    class_counts = {}
+    
+    for class_name in class_names:
+        class_path = os.path.join(data_dir, class_name)
+        if os.path.exists(class_path):
+            class_counts[class_name] = len(os.listdir(class_path))
+    
+    # حساب class weights
+    total = sum(class_counts.values())
+    n_classes = len(class_counts)
+    
+    class_weights = {}
+    for idx, (name, count) in enumerate(class_counts.items()):
+        # صيغة sklearn
+        weight = total / (n_classes * count)
+        class_weights[idx] = weight
+    
+    # تقليم الأوزان الكبيرة جدًا
+    max_weight = 10.0
+    class_weights = {k: min(v, max_weight) for k, v in class_weights.items()}
+    
+    return class_weights, class_counts
+
+# تقنية Oversampling باستخدام ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+def create_balanced_generator(data_dir, class_weights, img_size=(224, 224)):
+    """
+    إنشاء مولد متوازن باستخدام class_weight
+    """
+    datagen = ImageDataGenerator(
+        rescale=1./255,
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.3,
+        horizontal_flip=True,
+        vertical_flip=True,
+        fill_mode='reflect'
+    )
+    
+    generator = datagen.flow_from_directory(
+        data_dir,
+        target_size=img_size,
+        batch_size=32,
+        class_mode='categorical',
+        shuffle=True
+    )
+    
+    return generator
+
+# Focal Loss لمعالجة عدم التوازن
+def focal_loss(gamma=2., alpha=0.25):
+    """
+    Focal Loss - يركز على الأمثلة الصعبة
+    """
+    def focal_loss_fn(y_true, y_pred):
+        y_pred = tf.clip_by_value(y_pred, 1e-7, 1 - 1e-7)
+        cross_entropy = -y_true * tf.math.log(y_pred)
+        weight = alpha * y_true * tf.pow(1 - y_pred, gamma)
+        return tf.reduce_sum(weight * cross_entropy, axis=-1)
+    return focal_loss_fn</code></pre>
+            </div>
+          </div>
+
+          <div class="info-card tip">
+            <svg class="info-card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+            <div class="info-card-content">
+              <h4>Focal Loss vs Class Weights</h4>
+              <p>
+                Focal Loss أكثر فعالية من class weights عندما يكون عدم التوازن شديدًا (>10:1).
+                يركز على الأمثلة التي يخطئ فيها النموذج بدلاً من مجرد إعطاء وزن أعلى للفئات النادرة.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Augmentation -->
+        <section id="augmentation" class="content-section">
+          <h2>زيادة البيانات القوية (Strong Augmentation)</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>from tensorflow.keras import layers
+import tensorflow as tf
+
+# طبقات Augmentation القوية
+class StrongAugmentation(tf.keras.layers.Layer):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
+        self.augment_layers = tf.keras.Sequential([
+            layers.RandomFlip("horizontal_and_vertical"),
+            layers.RandomRotation(0.4),
+            layers.RandomZoom((-0.3, 0.3)),
+            layers.RandomTranslation(0.2, 0.2),
+            layers.RandomContrast(0.3),
+            layers.RandomBrightness(0.3),
+        ])
+    
+    def call(self, images, training=True):
+        if training:
+            return self.augment_layers(images)
+        return images
+
+# Cutout / Random Erasing
+class RandomCutout(tf.keras.layers.Layer):
+    def __init__(self, probability=0.5, min_size=0.1, max_size=0.3):
+        super().__init__()
+        self.probability = probability
+        self.min_size = min_size
+        self.max_size = max_size
+    
+    def call(self, images, training=True):
+        if not training:
+            return images
+        
+        if tf.random.uniform([]) > self.probability:
+            return images
+        
+        batch_size = tf.shape(images)[0]
+        height = tf.shape(images)[1]
+        width = tf.shape(images)[2]
+        
+        # Random cutout size
+        cutout_h = tf.cast(tf.cast(height, tf.float32) * 
+                          tf.random.uniform([], self.min_size, self.max_size), tf.int32)
+        cutout_w = tf.cast(tf.cast(width, tf.float32) * 
+                          tf.random.uniform([], self.min_size, self.max_size), tf.int32)
+        
+        # Random position
+        y = tf.random.uniform([], 0, height - cutout_h, dtype=tf.int32)
+        x = tf.random.uniform([], 0, width - cutout_w, dtype=tf.int32)
+        
+        # Create mask
+        mask = tf.ones((batch_size, height, width, tf.shape(images)[3]))
+        mask = mask - tf.pad(
+            tf.ones((batch_size, cutout_h, cutout_w, tf.shape(images)[3])),
+            [[0, 0], [y, height - y - cutout_h], [x, width - x - cutout_w], [0, 0]]
+        )
+        
+        return images * mask
+
+# MixUp Augmentation
+def mixup(images, labels, alpha=0.2):
+    """
+    MixUp: خلط الصور والتسميات
+    """
+    batch_size = tf.shape(images)[0]
+    
+    # Sample lambda from Beta distribution
+    lam = tf.random.uniform([], 0, alpha)
+    
+    # Random permutation
+    indices = tf.random.shuffle(tf.range(batch_size))
+    
+    # Mix images and labels
+    mixed_images = lam * images + (1 - lam) * tf.gather(images, indices)
+    mixed_labels = lam * labels + (1 - lam) * tf.gather(labels, indices)
+    
+    return mixed_images, mixed_labels</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Model -->
+        <section id="model" class="content-section">
+          <h2>بناء CNN كبيرة وعميقة</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>from tensorflow.keras import Model, Input
+from tensorflow.keras.layers import (
+    Conv2D, BatchNormalization, Activation, MaxPooling2D,
+    GlobalAveragePooling2D, Dense, Dropout, Add,
+    SeparableConv2D, Concatenate
+)
+from tensorflow.keras.regularizers import l2
+
+def residual_block(x, filters, stride=1, use_projection=False):
+    """
+    Residual Block مع skip connection
+    """
+    shortcut = x
+    
+    # First conv
+    x = Conv2D(filters, 3, strides=stride, padding='same',
+               kernel_regularizer=l2(1e-4))(x)
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    
+    # Second conv
+    x = Conv2D(filters, 3, padding='same',
+               kernel_regularizer=l2(1e-4))(x)
+    x = BatchNormalization()(x)
+    
+    # Projection shortcut
+    if use_projection or stride != 1:
+        shortcut = Conv2D(filters, 1, strides=stride, padding='same')(shortcut)
+        shortcut = BatchNormalization()(shortcut)
+    
+    x = Add()([x, shortcut])
+    x = Activation('relu')(x)
+    
+    return x
+
+def build_plant_disease_model(input_shape=(224, 224, 3), num_classes=38):
+    """
+    نموذج عميق لاكتشاف أمراض النباتات
+    """
+    inputs = Input(shape=input_shape)
+    
+    # Stem
+    x = Conv2D(64, 7, strides=2, padding='same', kernel_regularizer=l2(1e-4))(inputs)
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = MaxPooling2D(3, strides=2, padding='same')(x)
+    
+    # Stage 1: 64 filters
+    x = residual_block(x, 64, use_projection=True)
+    x = residual_block(x, 64)
+    x = Dropout(0.2)(x)
+    
+    # Stage 2: 128 filters
+    x = residual_block(x, 128, stride=2, use_projection=True)
+    x = residual_block(x, 128)
+    x = residual_block(x, 128)
+    x = Dropout(0.3)(x)
+    
+    # Stage 3: 256 filters
+    x = residual_block(x, 256, stride=2, use_projection=True)
+    x = residual_block(x, 256)
+    x = residual_block(x, 256)
+    x = residual_block(x, 256)
+    x = Dropout(0.4)(x)
+    
+    # Stage 4: 512 filters
+    x = residual_block(x, 512, stride=2, use_projection=True)
+    x = residual_block(x, 512)
+    x = Dropout(0.4)(x)
+    
+    # Head
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(1024, activation='relu', kernel_regularizer=l2(1e-4))(x)
+    x = BatchNormalization()(x)
+    x = Dropout(0.5)(x)
+    x = Dense(512, activation='relu', kernel_regularizer=l2(1e-4))(x)
+    x = Dropout(0.4)(x)
+    outputs = Dense(num_classes, activation='softmax')(x)
+    
+    model = Model(inputs, outputs, name='plant_disease_detector')
+    return model
+
+# إنشاء النموذج
+model = build_plant_disease_model(num_classes=38)
+print(f"إجمالي المعاملات: {model.count_params():,}")</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Training -->
+        <section id="training" class="content-section">
+          <h2>التدريب متعدد المراحل</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>from tensorflow.keras.optimizers import AdamW
+from tensorflow.keras.callbacks import (
+    EarlyStopping, ModelCheckpoint, ReduceLROnPlateau,
+    LearningRateScheduler
+)
+
+# Cosine Annealing Learning Rate
+def cosine_annealing_schedule(epoch, lr, total_epochs=100, min_lr=1e-6):
+    """
+    Cosine Annealing scheduler
+    """
+    return min_lr + 0.5 * (lr - min_lr) * (1 + np.cos(np.pi * epoch / total_epochs))
+
+# التدريب الكامل
+def train_plant_model(model, train_ds, val_ds, class_weights, epochs=100):
+    
+    # المرحلة 1: Warm-up
+    print("="*60)
+    print("المرحلة 1: Warm-up Training")
+    print("="*60)
+    
+    model.compile(
+        optimizer=AdamW(learning_rate=1e-4, weight_decay=1e-5),
+        loss='categorical_crossentropy',
+        metrics=['accuracy', tf.keras.metrics.TopKCategoricalAccuracy(k=3)]
+    )
+    
+    callbacks_phase1 = [
+        EarlyStopping(patience=5, restore_best_weights=True),
+        ReduceLROnPlateau(factor=0.5, patience=3)
+    ]
+    
+    history1 = model.fit(
+        train_ds,
+        epochs=20,
+        validation_data=val_ds,
+        callbacks=callbacks_phase1,
+        class_weight=class_weights
+    )
+    
+    # المرحلة 2: Main Training with Focal Loss
+    print("\n" + "="*60)
+    print("المرحلة 2: Main Training with Focal Loss")
+    print("="*60)
+    
+    model.compile(
+        optimizer=AdamW(learning_rate=1e-3, weight_decay=1e-5),
+        loss=focal_loss(gamma=2.0),
+        metrics=['accuracy', tf.keras.metrics.TopKCategoricalAccuracy(k=3)]
+    )
+    
+    callbacks_phase2 = [
+        EarlyStopping(patience=10, restore_best_weights=True),
+        ModelCheckpoint('best_plant_model.keras', save_best_only=True),
+        ReduceLROnPlateau(factor=0.5, patience=5, min_lr=1e-6)
+    ]
+    
+    history2 = model.fit(
+        train_ds,
+        epochs=50,
+        validation_data=val_ds,
+        callbacks=callbacks_phase2,
+        class_weight=class_weights
+    )
+    
+    # المرحلة 3: Fine-tuning
+    print("\n" + "="*60)
+    print("المرحلة 3: Fine-tuning")
+    print("="*60)
+    
+    model.compile(
+        optimizer=AdamW(learning_rate=1e-5, weight_decay=1e-6),
+        loss='categorical_crossentropy',
+        metrics=['accuracy', tf.keras.metrics.TopKCategoricalAccuracy(k=3)]
+    )
+    
+    history3 = model.fit(
+        train_ds,
+        epochs=30,
+        validation_data=val_ds,
+        callbacks=callbacks_phase2
+    )
+    
+    return [history1, history2, history3]
+
+histories = train_plant_model(model, train_ds, val_ds, class_weights)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Evaluation -->
+        <section id="evaluation" class="content-section">
+          <h2>التقييم المتقدم وتحليل الأداء</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>from sklearn.metrics import (
+    classification_report, confusion_matrix,
+    precision_recall_curve, average_precision_score,
+    roc_curve, auc
+)
+
+def comprehensive_plant_evaluation(model, test_ds, class_names):
+    """
+    تقييم شامل ومتقدم للنموذج
+    """
+    # جمع البيانات
+    y_true = []
+    y_pred_proba = []
+    
+    for images, labels in test_ds:
+        preds = model.predict(images, verbose=0)
+        y_pred_proba.extend(preds)
+        y_true.extend(np.argmax(labels.numpy(), axis=1))
+    
+    y_true = np.array(y_true)
+    y_pred_proba = np.array(y_pred_proba)
+    y_pred = np.argmax(y_pred_proba, axis=1)
+    
+    # الدقة الإجمالية
+    accuracy = (y_pred == y_true).mean()
+    print(f"\nالدقة الإجمالية: {accuracy*100:.2f}%")
+    
+    # Top-3 Accuracy
+    top3_correct = 0
+    for i in range(len(y_true)):
+        top3 = np.argsort(y_pred_proba[i])[-3:]
+        if y_true[i] in top3:
+            top3_correct += 1
+    top3_accuracy = top3_correct / len(y_true)
+    print(f"Top-3 Accuracy: {top3_accuracy*100:.2f}%")
+    
+    # تقرير التصنيف
+    print("\n" + "="*60)
+    print("تقرير التصنيف المفصل:")
+    print("="*60)
+    print(classification_report(y_true, y_pred, target_names=class_names, digits=3))
+    
+    # أداء كل نوع نبات
+    print("\n" + "="*60)
+    print("أداء حسب النبات:")
+    print("="*60)
+    
+    plants = set([name.split('___')[0] for name in class_names])
+    for plant in plants:
+        plant_indices = [i for i, name in enumerate(class_names) if plant in name]
+        plant_mask = np.isin(y_true, plant_indices)
+        if plant_mask.sum() > 0:
+            acc = (y_pred[plant_mask] == y_true[plant_mask]).mean()
+            print(f"  {plant}: {acc*100:.1f}%")
+    
+    return y_true, y_pred, y_pred_proba
+
+y_true, y_pred, y_pred_proba = comprehensive_plant_evaluation(model, test_ds, class_names)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Error Analysis -->
+        <section id="error-analysis" class="content-section">
+          <h2>تحليل الأخطاء التفصيلي</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>def detailed_error_analysis(y_true, y_pred, class_names):
+    """
+    تحليل تفصيلي للأخطاء
+    """
+    cm = confusion_matrix(y_true, y_pred)
+    
+    # أكثر الأخطاء شيوعًا
+    errors = []
+    for i in range(len(class_names)):
+        for j in range(len(class_names)):
+            if i != j and cm[i][j] > 0:
+                errors.append({
+                    'true': class_names[i],
+                    'pred': class_names[j],
+                    'count': cm[i][j],
+                    'rate': cm[i][j] / cm[i].sum() * 100
+                })
+    
+    errors.sort(key=lambda x: x['count'], reverse=True)
+    
+    print("="*70)
+    print("أكثر 15 خطأ شيوعًا:")
+    print("="*70)
+    print(f"{'الفئة الحقيقية':<30} {'التوقع الخاطئ':<30} {'العدد':<8} {'النسبة'}")
+    print("-"*70)
+    
+    for error in errors[:15]:
+        print(f"{error['true']:<30} {error['pred']:<30} {error['count']:<8} {error['rate']:.1f}%")
+    
+    # تحليل: أخطاء نفس النبات vs نباتات مختلفة
+    same_plant_errors = 0
+    diff_plant_errors = 0
+    
+    for error in errors:
+        true_plant = error['true'].split('___')[0]
+        pred_plant = error['pred'].split('___')[0]
+        
+        if true_plant == pred_plant:
+            same_plant_errors += error['count']
+        else:
+            diff_plant_errors += error['count']
+    
+    total_errors = same_plant_errors + diff_plant_errors
+    print(f"\n{'='*50}")
+    print("تحليل نوع الأخطاء:")
+    print(f"  خلط بين أمراض نفس النبات: {same_plant_errors} ({same_plant_errors/total_errors*100:.1f}%)")
+    print(f"  خلط بين نباتات مختلفة: {diff_plant_errors} ({diff_plant_errors/total_errors*100:.1f}%)")
+    
+    return errors
+
+errors = detailed_error_analysis(y_true, y_pred, class_names)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Testing -->
+        <section id="testing" class="content-section">
+          <h2>اختبار النموذج على صور من الواقع</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code>def diagnose_plant_disease(model, img_path, class_names, img_size=(224, 224)):
+    """
+    تشخيص مرض النبات مع تقرير كامل
+    """
+    # تحميل الصورة
+    img = tf.keras.utils.load_img(img_path, target_size=img_size)
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) / 255.0
+    
+    # التنبؤ
+    predictions = model.predict(img_array, verbose=0)[0]
+    
+    # أعلى 5 توقعات
+    top_5_idx = np.argsort(predictions)[-5:][::-1]
+    
+    # تقرير التشخيص
+    print("="*60)
+    print("تقرير تشخيص مرض النبات")
+    print("="*60)
+    
+    top_prediction = class_names[top_5_idx[0]]
+    plant_name, disease = top_prediction.split('___') if '___' in top_prediction else (top_prediction, 'Unknown')
+    
+    print(f"\nالنبات: {plant_name}")
+    print(f"الحالة: {disease}")
+    print(f"الثقة: {predictions[top_5_idx[0]]*100:.1f}%")
+    
+    if 'healthy' in disease.lower():
+        print("\n✅ النبات سليم!")
+    else:
+        print(f"\n⚠️ تم اكتشاف مرض: {disease}")
+        print("التوصيات: استشر خبير زراعي للعلاج المناسب")
+    
+    print("\n" + "-"*40)
+    print("التشخيصات المحتملة الأخرى:")
+    for idx in top_5_idx[1:]:
+        name = class_names[idx]
+        prob = predictions[idx] * 100
+        if prob > 1:  # عرض فقط إذا كانت الاحتمالية > 1%
+            print(f"  • {name}: {prob:.1f}%")
+    
+    # رسم النتائج
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    
+    axes[0].imshow(img)
+    axes[0].set_title(f'{plant_name}\n{disease}', fontsize=12)
+    axes[0].axis('off')
+    
+    # Top 5 predictions bar chart
+    top_names = [class_names[i].replace('___', '\n') for i in top_5_idx]
+    top_probs = [predictions[i] * 100 for i in top_5_idx]
+    colors = ['green' if 'healthy' in n.lower() else 'red' for n in top_names]
+    
+    axes[1].barh(range(5), top_probs, color=colors)
+    axes[1].set_yticks(range(5))
+    axes[1].set_yticklabels(top_names, fontsize=8)
+    axes[1].set_xlabel('الاحتمالية (%)')
+    axes[1].set_title('أعلى 5 تشخيصات')
+    axes[1].set_xlim(0, 100)
+    
+    plt.tight_layout()
+    plt.savefig('diagnosis_result.png', dpi=150)
+    plt.show()
+    
+    return top_prediction, predictions[top_5_idx[0]]
+
+# اختبار
+result, confidence = diagnose_plant_disease(model, 'leaf_sample.jpg', class_names)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Save Model -->
+        <section id="save-model" class="content-section">
+          <h2>حفظ النموذج</h2>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                نسخ
+              </button>
+            </div>
+            <div class="code-content">
+<pre><code># حفظ النموذج الكامل
+model.save('plant_disease_detector.keras')
+
+# حفظ أسماء الفئات
+import json
+with open('plant_disease_classes.json', 'w', encoding='utf-8') as f:
+    json.dump({
+        'class_names': class_names,
+        'num_classes': len(class_names),
+        'plants': list(set([n.split('___')[0] for n in class_names]))
+    }, f, ensure_ascii=False, indent=2)
+
+# تصدير لـ TensorFlow Lite (للتطبيقات المحمولة)
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+converter.target_spec.supported_types = [tf.float16]
+
+tflite_model = converter.convert()
+with open('plant_disease_model.tflite', 'wb') as f:
+    f.write(tflite_model)
+
+print(f"حجم النموذج الأصلي: ~{model.count_params() * 4 / 1024 / 1024:.1f} MB")
+print(f"حجم TFLite (float16): {len(tflite_model) / 1024 / 1024:.1f} MB")
+
+# تصدير لـ TensorFlow.js (للويب)
+import tensorflowjs as tfjs
+tfjs.converters.save_keras_model(model, 'plant_disease_tfjs')
+print("تم تصدير النموذج لـ TensorFlow.js!")</code></pre>
+            </div>
+          </div>
+
+          <div class="info-card success">
+            <svg class="info-card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="info-card-content">
+              <h4>تهانينا! أكملت جميع المشاريع</h4>
+              <p>
+                لقد أتقنت بناء نماذج CNN من البسيط إلى المعقد. الآن يمكنك تطبيق هذه المهارات 
+                على مشاريعك الخاصة. جرب تحسين النماذج باستخدام Transfer Learning من 
+                نماذج مثل EfficientNet أو ResNet المدربة مسبقًا.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="page-nav">
+          <a href="fashion-mnist.html" class="page-nav-link prev">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <div>
+              <span class="page-nav-label">السابق</span>
+              <span class="page-nav-title">تصنيف الملابس Fashion-MNIST</span>
+            </div>
+          </a>
+          <a href="examples.html" class="page-nav-link next">
+            <div>
+              <span class="page-nav-label">التالي</span>
+              <span class="page-nav-title">الأمثلة العملية</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>المشاريع العملية</h4>
+          <ul class="footer-links">
+            <li><a href="cats-dogs.html">تصنيف القطط والكلاب</a></li>
+            <li><a href="flowers.html">تصنيف الزهور</a></li>
+            <li><a href="fashion-mnist.html">تصنيف الملابس</a></li>
+            <li><a href="plant-disease.html">اكتشاف أمراض النباتات</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>الأقسام الرئيسية</h4>
+          <ul class="footer-links">
+            <li><a href="architecture.html">معمارية النموذج</a></li>
+            <li><a href="preprocessing.html">معالجة الصور</a></li>
+            <li><a href="training-settings.html">إعدادات التدريب</a></li>
+            <li><a href="examples.html">الأمثلة العملية</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>جميع الحقوق محفوظة © 2024 - دليل التعلم العميق الشامل</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Modal -->
+  <div class="search-modal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input type="text" class="search-input" placeholder="ابحث في الدليل... (Ctrl+K)">
+        <kbd>ESC</kbd>
+      </div>
+      <div class="search-results"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
