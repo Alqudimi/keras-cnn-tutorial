@@ -6,7 +6,11 @@
 
 <h1 align="center">
   <br>
-  <img src="images/website.jpeg" width="200" alt="CNN Tutorial">
+  <a href="https://alqudimi.github.io/keras-cnn-tutorial/" title="Click to visit the website">
+    <img src="images/website.jpeg" width="400" alt="CNN Tutorial">
+  </a>
+  <br>
+  <small>Click on the image to visit the website</small>
   <br>
   Keras CNN Tutorial
   <br>
