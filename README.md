@@ -6,7 +6,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/tensorflow/tensorflow/master/tensorflow/core/platform/default/logging.h" width="200" alt="CNN Tutorial">
+  <img src="images/website.jpeg" width="200" alt="CNN Tutorial">
   <br>
   Keras CNN Tutorial
   <br>
